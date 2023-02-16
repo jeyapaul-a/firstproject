@@ -1,0 +1,73 @@
+import Table from "./Tables/usertable";
+import{useState} from "react"
+import Edittable from "./Tables/popup";
+import  "./Tables/back.css";
+import Delete from "./Tables/Delete";
+
+
+
+export default function App(){
+	const userdata=[
+		{id:1,name:'CSk',date:'12/6/22',status:'online'},
+		{id:2,name:'MI',date:'13/6/22',status:'online'},
+		{id:3,name:'KKR',date:'14/6/22',status:'online'},
+		{id:4,name:'RCB',date:'15/6/22',status:'online'},
+		{id:5,name:'DD',date:'14/6/77',status:'online'}
+	];
+	//delete Table
+	const intialformdelete={id:""}
+	const [currentuserid,setcurrentuserid]=useState(intialformdelete)
+	const [deleteing,setdeleting]=useState(false);
+	const deleteuser =(user) =>{
+		setdeleting(true); 
+		setcurrentuserid({id:user.id});
+		
+	}
+	const deleterow = (id)=>{
+		setdeleting(false);
+		setuser(user.filter((user)=>user.id!==id))
+	}
+	const[user,setuser]=useState (userdata);
+	const [editing,setediting]=useState(false)
+	
+	const intialformstate={id:null,name:"",date:"",status:""}
+	const [currentuser,setcurrentuser]=useState(intialformstate)
+	const editRow =(user)=>{
+		setediting(true);
+		setcurrentuser({id:user.id,name:user.name,date:user.date,status:user.status});
+	}
+	const updateuser=(id,updateuser)=>{
+		setediting(false);
+		setuser(user.map((user)=>(user.id===id?updateuser:user)))
+	}
+	return(
+		<div>
+			<div>
+				{editing?(<div>
+					<h2>Edit user</h2>
+					<Edittable
+					editing={editing}
+					setediting={setediting}
+					updateuser={updateuser}
+					currentuser={currentuser }/>
+				</div>):(<div></div>)}
+        </div>
+		<div>
+				{deleteing?(<div>
+					<h2>Edit user</h2>
+					<Delete
+					deleteing={deleteing}
+					setdeleting={setdeleting}
+					currentuserid={currentuserid}
+					deleterow={deleterow}
+					></Delete>
+				</div>):(<div></div>)}
+        </div>
+			<Table editRow={editRow} deleteuser={deleteuser} user={user}/>
+      <div>
+        
+      </div>
+		</div>
+    
+	)
+}

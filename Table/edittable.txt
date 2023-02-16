@@ -1,0 +1,43 @@
+import { useState } from "react";
+
+
+const Edittable = (props)=>{
+   const [user,setuser] =useState(props.currentuser)
+
+   const handleinputchange=(event)=>{
+    const {name,value}= event.target
+    setuser({...user,[name]:value})
+   }
+   
+    return(
+        <center>
+
+        <form onSubmit={
+            event=>{
+                event.preventDefault();
+                if(!user.id||!user.name||!user.date||!user.status)return;
+                props.updateuser(user.id,user);
+                 }
+        }>
+            
+            <label>id</label>
+            <input type="text" name="id" value={user.id}></input><br/>
+            <label>Name</label>
+            <input type="text"  onChange={handleinputchange} name="name" value={user.name}></input><br/>
+            <label>Date</label>
+            <input type="text"onChange={handleinputchange} name="date" value={user.date}></input><br/>
+            <label>States</label>
+            <input type="text"onChange={handleinputchange} name="status" value={user.status}></input><br/>
+            <button>update</button>
+            <button onClick={()=>{
+                props.setediting(false);
+            } }>cancal</button>
+            
+            
+        </form>
+        </center>
+        
+
+    )
+}
+export default Edittable;

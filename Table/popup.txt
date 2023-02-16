@@ -1,0 +1,69 @@
+import { useState } from "react";
+import * as React from 'react';
+import Button from '@mui/material/Button';
+//import TextField from '@mui/material/TextField';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+//import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+
+const Edittable = (props)=>{
+   const [user,setuser] =useState(props.currentuser)
+
+   const handleinputchange=(event)=>{
+    const {name,value}= event.target
+    setuser({...user,[name]:value})
+   }
+   
+
+   
+ 
+ 
+   
+    return(
+        <div>
+              
+      <Dialog open={props.editing} >
+        <DialogTitle>Edit the details</DialogTitle>
+        <DialogContent>
+        <label>id</label>
+            <input type="text" name="id" value={user.id}></input><br/>
+            <label>Name</label>
+            <input type="text"  onChange={handleinputchange} name="name" value={user.name}></input><br/>
+            <label>Date</label>
+            <input type="date"onChange={handleinputchange} name="date" value={user.date}></input><br/>
+            <label>States</label>
+            <select onChange={handleinputchange} name="status" value={user.status}>
+    <option value="end">end</option>
+    <option value="live">live</option>
+    <option value="upcoming">coming</option>
+    
+  </select>
+  
+            
+
+          
+          
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={
+            event=>{
+                event.preventDefault();
+                if(!user.id||!user.name||!user.date||!user.status)return;
+                props.updateuser(user.id,user);
+                 }
+        }>update</Button>
+          <Button onClick={()=>{
+                props.setediting(false);
+            } }>cancel</Button>
+        </DialogActions>
+      </Dialog>
+    
+            
+       
+    </div>    
+
+    )
+}
+export default Edittable;
